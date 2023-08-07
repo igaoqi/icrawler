@@ -1,10 +1,9 @@
-﻿using System;
-using Crawler.Domain.Entities;
+﻿using Crawler.Domain.Http;
 
 namespace Crawler.Domain.Services
 {
     public interface ICrawlingService : ITransientDependency
     {
-        Task<CrawledData<T>> CrawlDataAsync<T>(string url) where T : class;
+        Task<CrawleData> CrawlDataAsync(string url);
     }
 }

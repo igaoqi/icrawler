@@ -1,13 +1,14 @@
-﻿using System;
-using Crawler.Domain.Entities;
+﻿using Crawler.Domain.Http;
 
 namespace Crawler.Domain.Services.Impls
 {
     public class CrawlingService : ICrawlingService
     {
-        public Task<CrawledData<T>> CrawlDataAsync<T>(string url) where T : class
+        public async Task<CrawleData> CrawlDataAsync(string url)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("CrawlDataAsync");
+
+            return default;
         }
     }
 }

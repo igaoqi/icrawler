@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Crawler.Domain\Crawler.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Configs\Database.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

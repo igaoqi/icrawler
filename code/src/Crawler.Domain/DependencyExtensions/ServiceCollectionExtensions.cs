@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Crawler.Domain.Dependency
+namespace Crawler.Domain.DependencyExtensions
 {
-    public static class DependencyExtension
+    public static class ServiceCollectionExtensions
     {
         public static void AddTransientDependency(this IServiceCollection services)
         {
