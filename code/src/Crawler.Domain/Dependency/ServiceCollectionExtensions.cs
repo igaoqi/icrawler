@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Crawler.Domain.DependencyExtensions
+namespace Crawler.Domain.Dependency
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddTransientDependency(this IServiceCollection services)
+        public static IServiceCollection AddTransientDependency(this IServiceCollection services)
         {
             var assembly = typeof(ITransientDependency).Assembly;
             var transientTypes = assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && typeof(ITransientDependency).IsAssignableFrom(t));
@@ -19,6 +19,8 @@ namespace Crawler.Domain.DependencyExtensions
 
                 services.AddTransient(serviceType, type);
             }
+
+            return services;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Crawler.Domain.Options
 {
-    public class MysqlOptions
+    public class MysqlConfig
     {
         public string ConnectionString { get; set; }
     }

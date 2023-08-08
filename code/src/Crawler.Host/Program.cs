@@ -1,4 +1,5 @@
-﻿using Crawler.Domain.DependencyExtensions;
+﻿using Crawler.Application.Jobs.Dependency;
+using Crawler.Domain.Dependency;
 using Crawler.Domain.Http;
 using Crawler.Domain.Options;
 using Microsoft.Extensions.Configuration;
@@ -14,15 +15,22 @@ public class Program
             {
                 config.SetBasePath(Directory.GetCurrentDirectory()).AddCommandLine(args);
                 config.AddJsonFile("Configs/Database.json", optional: true);
+                config.AddJsonFile("Configs/QuartzConfig.json", optional: true);
             })
-            .ConfigureServices((context, services) =>
+            .ConfigureServices(async (context, services) =>
             {
+                //绑定配置项
+                services.Configure<MysqlConfig>(context.Configuration.GetSection("MysqlConfig"));
+                services.Configure<List<QuartzConfig>>(context.Configuration.GetSection("Jobs"));
+
                 //注册HttpClient
                 services.AddHttpClientAgent();
+
                 //注册依赖
                 services.AddTransientDependency();
-                //绑定配置项
-                services.Configure<MysqlOptions>(context.Configuration.GetSection("MysqlConfig"));
+
+                //注册定时任务
+                await services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
             })
             .Build();
 

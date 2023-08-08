@@ -8,9 +8,9 @@ namespace Crawler.Domain.Repository.Impls
 {
     public class MysqlRepository : IRepository
     {
-        private readonly MysqlOptions _options;
+        private readonly MysqlConfig _options;
 
-        public MysqlRepository(IOptionsSnapshot<MysqlOptions> optionsSnapshot)
+        public MysqlRepository(IOptionsSnapshot<MysqlConfig> optionsSnapshot)
         {
             _options = optionsSnapshot.Value;
         }

@@ -1,9 +1,0 @@
-{
-  "Jobs": [
-    {
-      "Enabled": true,
-      "Name": "TestJob",
-      "Corn": "0 0 0 * * ?",
-    }
-  ]
-}

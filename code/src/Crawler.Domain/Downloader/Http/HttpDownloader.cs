@@ -50,6 +50,8 @@ namespace Crawler.Domain.Downloader.HttpDownloader
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
 
+            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)");
+
             return client;
         }
     }
