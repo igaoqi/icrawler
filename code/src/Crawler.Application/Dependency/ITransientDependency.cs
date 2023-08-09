@@ -1,4 +1,4 @@
-﻿namespace Crawler.Domain
+﻿namespace Crawler.Application.Dependency
 {
     public interface ITransientDependency
     {

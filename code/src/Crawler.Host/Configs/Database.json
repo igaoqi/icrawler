@@ -1,5 +1,10 @@
 {
-  "MysqlConfig": {
-    "ConnectionString": "asasasas"
+  "Database": {
+    "Mysql": {
+      "ConnectionString": "asasasas"
+    },
+    "Sqlite": {
+      "ConnectionString": "Data Source=|DataDirectory|\\crawler.db"
+    }
   }
 }

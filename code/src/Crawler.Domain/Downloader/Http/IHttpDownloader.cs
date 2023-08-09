@@ -1,4 +1,5 @@
-﻿using Crawler.Domain.Http;
+﻿using Crawler.Domain.Dependency;
+using Crawler.Domain.Http;
 
 namespace Crawler.Domain.Downloader.Http
 {

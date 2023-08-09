@@ -1,4 +1,5 @@
-﻿using Crawler.Application.Jobs.Dependency;
+﻿using Crawler.Application.Dependency;
+using Crawler.Application.Jobs.Dependency;
 using Crawler.Domain.Dependency;
 using Crawler.Domain.Http;
 using Crawler.Domain.Options;
@@ -20,14 +21,16 @@ public class Program
             .ConfigureServices(async (context, services) =>
             {
                 //绑定配置项
-                services.Configure<MysqlConfig>(context.Configuration.GetSection("MysqlConfig"));
+                services.Configure<MysqlConfig>(context.Configuration.GetSection("Database:Mysql"));
+                services.Configure<SqlLiteConfig>(context.Configuration.GetSection("Database:Sqlite"));
                 services.Configure<List<QuartzConfig>>(context.Configuration.GetSection("Jobs"));
 
                 //注册HttpClient
                 services.AddHttpClientAgent();
 
                 //注册依赖
-                services.AddTransientDependency();
+                services.AddDomainTransientDependency();
+                services.AddAppTransientDependency();
 
                 //注册定时任务
                 await services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
