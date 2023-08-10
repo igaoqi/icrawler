@@ -1,4 +1,4 @@
-﻿namespace Crawler.Domain.Entities
+﻿namespace Crawler.Domain.Entities.CrawleUrl
 {
     public class CrawleUrl
     {
@@ -9,9 +9,9 @@
         public DateTime CrawledAt { get; set; }
 
         /// <summary>
-        /// 0 : not crawled, 1: crawled, 2: crawled but failed
+        /// 1 : not crawled, 2: crawled but failed , 3: crawled success
         /// </summary>
-        public int Status { get; set; }
+        public CrawleUrlStatus Status { get; set; }
 
         public DateTime CreatedTime { get; set; }
 

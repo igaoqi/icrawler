@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace Crawler.Infrastructure.Repositories.BaseRepository
 {
-    public class MysqlRepository : ICmdRepository
+    public class MysqlRepository
     {
         private readonly MysqlConfig _options;
 

@@ -1,4 +1,4 @@
-﻿using Crawler.Domain.Entities;
+﻿using Crawler.Domain.Entities.CrawleUrl;
 
 namespace Crawler.Domain.Repository
 {

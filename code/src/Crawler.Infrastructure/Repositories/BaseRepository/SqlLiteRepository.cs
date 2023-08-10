@@ -10,31 +10,36 @@ namespace Crawler.Infrastructure.Repositories.BaseRepository
 {
     public class SqlLiteRepository : ICmdRepository
     {
-        private readonly SqliteConnection _connection;
+        private readonly string _connection;
 
-        public SqlLiteRepository(IOptionsSnapshot<MysqlConfig> optionsSnapshot)
+        public SqlLiteRepository(IOptionsSnapshot<SqlLiteConfig> optionsSnapshot)
         {
-            _connection = new SqliteConnection(optionsSnapshot.Value.ConnectionString);
+            _connection = optionsSnapshot.Value.ConnectionString;
         }
 
         public Task<int> ExecuteAsync(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.ExecuteAsync(sql, param, transaction, commandTimeout, commandType);
+            using (var conn = GetSqliteConnection(_connection))
+            {
+                return conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType);
+            }
         }
 
         public Task<T> ExecuteScalarAsync<T>(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.ExecuteScalarAsync<T>(sql, param, transaction, commandTimeout, commandType);
+            using var conn = GetSqliteConnection(_connection);
+            return conn.ExecuteScalarAsync<T>(sql, param, transaction, commandTimeout, commandType);
         }
 
         public async Task ExecuteTransactionAsync(List<SqlCommand> commands, int? commandTimeout = null, CommandType? commandType = null)
         {
-            using var transaction = await _connection.BeginTransactionAsync();
+            using var conn = GetSqliteConnection(_connection);
+            using var transaction = await conn.BeginTransactionAsync();
             try
             {
                 foreach (var command in commands)
                 {
-                    await _connection.ExecuteAsync(command.Sql, command.Param, transaction, commandTimeout, commandType);
+                    await conn.ExecuteAsync(command.Sql, command.Param, transaction, commandTimeout, commandType);
                 }
 
                 transaction.Commit();
@@ -48,12 +53,24 @@ namespace Crawler.Infrastructure.Repositories.BaseRepository
 
         public Task<IEnumerable<T>> QueryAsync<T>(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType);
+            using var conn = GetSqliteConnection(_connection);
+            return conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType);
         }
 
         public Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
         {
-            return _connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction, commandTimeout, commandType);
+            using var conn = GetSqliteConnection(_connection);
+            return conn.QueryFirstOrDefaultAsync<T>(sql, param, transaction, commandTimeout, commandType);
+        }
+
+        private SqliteConnection GetSqliteConnection(string conn)
+        {
+            if (string.IsNullOrEmpty(conn))
+            {
+                conn = _connection;
+            }
+
+            return new SqliteConnection(conn);
         }
 
         public async Task SetupAsync()

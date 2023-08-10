@@ -4,7 +4,8 @@
       "ConnectionString": "asasasas"
     },
     "Sqlite": {
-      "ConnectionString": "Data Source=|DataDirectory|\\crawler.db"
+      //"ConnectionString": "Data Source=|DataDirectory|\\crawler.db"
+      "ConnectionString": "Data Source=D:\\crawler.db;Mode=ReadWriteCreate"
     }
   }
 }

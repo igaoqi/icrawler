@@ -2,7 +2,7 @@
   "Jobs": [
     {
       "Enabled": true,
-      "Type": "Crawler.Application.Jobs.Baidu.Job,Crawler.Application",
+      "Type": "Crawler.Application.Jobs.Crawler.CreateTaskJob,Crawler.Application",
       "Cron": "0/5 * * * * ?"
     }
   ]

@@ -1,12 +1,14 @@
-﻿namespace Crawler.Domain.Repository
+﻿using Crawler.Domain.Dependency;
+
+namespace Crawler.Domain.Repository
 {
-    public interface IEntityRepository<T, TKey>
+    public interface IEntityRepository<T, TKey> : ITransientDependency
     {
         Task<T> GetAsync(TKey id);
 
-        Task<T> FirstOrDefaultAsync(Predicate<T> predicate);
+        Task<T> GetFirstOrDefaultAsync(string sql, object param);
 
-        Task<IEnumerable<T>> GetListAsync();
+        Task<IEnumerable<T>> GetListAsync(string sql, object param);
 
         Task<int> InsertAsync(T entity);
 

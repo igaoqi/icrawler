@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Crawler.Domain.Entities;
+﻿using Crawler.Domain.Entities.CrawleUrl;
 using Crawler.Domain.Repository;
 
 namespace Crawler.Infrastructure.Repositories
@@ -24,16 +23,6 @@ namespace Crawler.Infrastructure.Repositories
             return await _repository.ExecuteAsync(cmd.Sql, cmd.Param);
         }
 
-        public async Task<CrawleUrl> FirstOrDefaultAsync(Expression<Func<CrawleUrl, bool>> predicate)
-        {
-            var cmd = new SqlCommand
-            {
-                Sql = "SELECT * FROM CrawleUrl" + predicate,
-            };
-
-            return await _repository.QueryFirstOrDefaultAsync<CrawleUrl>(cmd.Sql, cmd.Param);
-        }
-
         public async Task<CrawleUrl> GetAsync(long id)
         {
             var cmd = new SqlCommand
@@ -45,14 +34,20 @@ namespace Crawler.Infrastructure.Repositories
             return await _repository.QueryFirstOrDefaultAsync<CrawleUrl>(cmd.Sql, cmd.Param);
         }
 
-        public async Task<IEnumerable<CrawleUrl>> GetListAsync()
+        public async Task<CrawleUrl> GetFirstOrDefaultAsync(string sql, object param)
+        {
+            return await _repository.QueryFirstOrDefaultAsync<CrawleUrl>(sql, param);
+        }
+
+        public async Task<IEnumerable<CrawleUrl>> GetListAsync(string sql, object param)
         {
             var cmd = new SqlCommand
             {
-                Sql = "SELECT * FROM CrawleUrl"
+                Sql = sql,
+                Param = param
             };
 
-            return await _repository.QueryAsync<CrawleUrl>(cmd.Sql);
+            return await _repository.QueryAsync<CrawleUrl>(cmd.Sql, cmd.Param);
         }
 
         public Task<int> InsertAsync(CrawleUrl entity)

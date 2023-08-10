@@ -1,6 +1,6 @@
-﻿using Crawler.Application.Dependency;
+﻿using Autofac.Extensions.DependencyInjection;
+using Crawler.Application.Dependency;
 using Crawler.Application.Jobs.Dependency;
-using Crawler.Domain.Dependency;
 using Crawler.Domain.Http;
 using Crawler.Domain.Options;
 using Microsoft.Extensions.Configuration;
@@ -29,12 +29,18 @@ public class Program
                 services.AddHttpClientAgent();
 
                 //注册依赖
-                services.AddDomainTransientDependency();
                 services.AddAppTransientDependency();
+
+                //注册Id生成器
+                services.AddIdGenerator();
 
                 //注册定时任务
                 await services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
             })
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory(container =>
+            {
+                container.AddDomainTransientDependency();
+            }))
             .Build();
 
         await builder.RunAsync();

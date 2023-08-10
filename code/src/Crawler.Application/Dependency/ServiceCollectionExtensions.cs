@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Yitter.IdGenerator;
 
 namespace Crawler.Application.Dependency
 {
@@ -11,14 +14,24 @@ namespace Crawler.Application.Dependency
 
             foreach (var type in transientTypes)
             {
-                //var serviceType = type.GetInterfaces().FirstOrDefault(i => i != typeof(ITransientDependency));
-                //if (serviceType == null)
-                //{
-                //    continue;
-                //}
-
                 services.AddTransient(type);
             }
+
+            return services;
+        }
+
+        public static void AddDomainTransientDependency(this ContainerBuilder builder)
+        {
+            var assemblys = Assembly.Load("Crawler.Infrastructure");
+            var baseType = typeof(Domain.Dependency.ITransientDependency);
+
+            builder.RegisterAssemblyTypes(assemblys).Where(p => baseType.IsAssignableFrom(p) && p != baseType).AsImplementedInterfaces().InstancePerLifetimeScope();
+        }
+
+        public static IServiceCollection AddIdGenerator(this IServiceCollection services)
+        {
+            var options = new IdGeneratorOptions(0);
+            YitIdHelper.SetIdGenerator(options);
 
             return services;
         }
