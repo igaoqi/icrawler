@@ -28,18 +28,16 @@ public class Program
                 //注册HttpClient
                 services.AddHttpClientAgent();
 
-                //注册依赖
-                services.AddAppTransientDependency();
-
                 //注册Id生成器
                 services.AddIdGenerator();
 
                 //注册定时任务
-                await services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
+                services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
             })
             .UseServiceProviderFactory(new AutofacServiceProviderFactory(container =>
             {
                 container.AddDomainTransientDependency();
+                container.AddAppTransientDependency();
             }))
             .Build();
 

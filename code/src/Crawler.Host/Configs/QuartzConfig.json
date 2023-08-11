@@ -2,7 +2,12 @@
   "Jobs": [
     {
       "Enabled": true,
-      "Type": "Crawler.Application.Jobs.Crawler.CreateTaskJob,Crawler.Application",
+      "Type": "Crawler.Application.Jobs.CreateCrawleTask.Job,Crawler.Application",
+      "Cron": "0/5 * * * * ?"
+    },
+    {
+      "Enabled": true,
+      "Type": "Crawler.Application.Jobs.ExecuteCrawleTask.Job,Crawler.Application",
       "Cron": "0/5 * * * * ?"
     }
   ]

@@ -1,7 +1,7 @@
 ﻿using Crawler.Domain.Dependency;
 using Crawler.Domain.Http;
 
-namespace Crawler.Domain.Downloader.Http
+namespace Crawler.Domain.Downloader
 {
     public interface IHttpDownloader : ITransientDependency
     {

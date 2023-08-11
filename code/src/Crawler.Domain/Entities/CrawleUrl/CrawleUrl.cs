@@ -1,4 +1,6 @@
-﻿namespace Crawler.Domain.Entities.CrawleUrl
+﻿using Crawler.Domain.Enums.CrawleUrl;
+
+namespace Crawler.Domain.Entities.CrawleUrl
 {
     public class CrawleUrl
     {

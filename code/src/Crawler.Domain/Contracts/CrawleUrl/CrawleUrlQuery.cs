@@ -1,13 +1,16 @@
 ﻿using System.Text;
+using Crawler.Domain.Enums.CrawleUrl;
 using Crawler.Domain.Repository;
 
 namespace Crawler.Domain.Contracts.CrawleUrl
 {
     public class CrawleUrlQuery : SqlPage
     {
+        public long Id { get; set; } = 0;
+
         public string Url { get; set; }
 
-        public int Status { get; set; }
+        public CrawleUrlStatus Status { get; set; }
 
         public string StartCrawledAt { get; set; }
 
@@ -24,6 +27,11 @@ namespace Crawler.Domain.Contracts.CrawleUrl
         public override string ToString()
         {
             StringBuilder where = new StringBuilder();
+            if (Id > 0)
+            {
+                where.Append(" AND Id = @Id");
+            }
+
             if (!string.IsNullOrEmpty(Url))
             {
                 where.Append(" AND Url = @Url");

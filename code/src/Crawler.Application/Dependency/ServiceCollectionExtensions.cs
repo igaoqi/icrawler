@@ -7,25 +7,51 @@ namespace Crawler.Application.Dependency
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAppTransientDependency(this IServiceCollection services)
+        public static void AddAppTransientDependency(this ContainerBuilder builder)
         {
-            var assembly = typeof(ITransientDependency).Assembly;
-            var transientTypes = assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && typeof(ITransientDependency).IsAssignableFrom(t));
+            // Get all types in the assembly
+            var assembly = Assembly.GetExecutingAssembly();
+            var types = assembly.GetTypes();
 
-            foreach (var type in transientTypes)
+            var selfDependencyTypes = types.Where(t => typeof(ITransientSelfDependency).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            foreach (var type in selfDependencyTypes)
             {
-                services.AddTransient(type);
+                if (!type.IsGenericType)
+                {
+                    builder.RegisterType(type).AsSelf().InstancePerDependency();
+                }
+                else
+                {
+                    builder.RegisterGeneric(type).AsSelf().InstancePerDependency();
+                }
             }
-
-            return services;
         }
 
         public static void AddDomainTransientDependency(this ContainerBuilder builder)
         {
-            var assemblys = Assembly.Load("Crawler.Infrastructure");
-            var baseType = typeof(Domain.Dependency.ITransientDependency);
+            var assembly = Assembly.Load("Crawler.Infrastructure");
+            var types = assembly.GetTypes();
 
-            builder.RegisterAssemblyTypes(assemblys).Where(p => baseType.IsAssignableFrom(p) && p != baseType).AsImplementedInterfaces().InstancePerLifetimeScope();
+            var selfDependencyTypes = types.Where(t => typeof(Domain.Dependency.ITransientDependency).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            foreach (var type in selfDependencyTypes)
+            {
+                if (!type.IsGenericType)
+                {
+                    builder.RegisterType(type).AsImplementedInterfaces().InstancePerDependency();
+                }
+                else
+                {
+                    var typeInterface = type.GetInterfaces().FirstOrDefault();
+                    if (typeInterface == null)
+                    {
+                        continue;
+                    }
+
+                    builder.RegisterGeneric(type).As(typeInterface).InstancePerDependency();
+
+                    //builder.RegisterGeneric(type).AsImplementedInterfaces().InstancePerDependency();
+                }
+            }
         }
 
         public static IServiceCollection AddIdGenerator(this IServiceCollection services)

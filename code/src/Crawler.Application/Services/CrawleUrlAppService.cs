@@ -1,11 +1,12 @@
 ﻿using Crawler.Application.Dependency;
 using Crawler.Domain.Contracts.CrawleUrl;
 using Crawler.Domain.Entities.CrawleUrl;
-using Crawler.Domain.Services;
+using Crawler.Domain.Enums.CrawleUrl;
+using Crawler.Domain.Services.Crawler;
 
 namespace Crawler.Application.Services
 {
-    public class CrawleUrlAppService : ITransientDependency
+    public class CrawleUrlAppService : ITransientSelfDependency
     {
         private readonly ICrawleUrlService _crawleUrlService;
 
@@ -33,8 +34,19 @@ namespace Crawler.Application.Services
         {
             return await _crawleUrlService.GetListAsync(new CrawleUrlQuery()
             {
-                Status = (int)CrawleUrlStatus.UnCrawled
+                Status = CrawleUrlStatus.UnCrawled
             });
+        }
+
+        public async Task MarkAsCrawledAsync(long crawleId)
+        {
+            var crawleUrl = new CrawleUrl()
+            {
+                Id = crawleId,
+                Status = CrawleUrlStatus.Success
+            };
+
+            await _crawleUrlService.UpdateAsync(crawleUrl);
         }
     }
 }

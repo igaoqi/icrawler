@@ -4,7 +4,7 @@ namespace Crawler.Domain.Http
 {
     public class CrawleData
     {
-        public int Id { get; set; }
+        public long Id { get; set; } = 0;
 
         public string Url { get; set; }
 
@@ -12,6 +12,6 @@ namespace Crawler.Domain.Http
 
         public string Data { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CrawledAt { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Crawler.Application.Jobs.Dependency
 {
     public static class ServiceCollectionExtensions
     {
-        public static async Task<IServiceCollection> AddJobs(this IServiceCollection services, List<QuartzConfig>? Jobs)
+        public static IServiceCollection AddJobs(this IServiceCollection services, List<QuartzConfig>? Jobs)
         {
             services.AddQuartz(options =>
             {

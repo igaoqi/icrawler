@@ -1,18 +1,20 @@
 ﻿using Crawler.Application.Services;
 using Crawler.Domain.Entities.CrawleUrl;
+using Crawler.Domain.Enums.CrawleUrl;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Yitter.IdGenerator;
 
-namespace Crawler.Application.Jobs.Crawler
+namespace Crawler.Application.Jobs.CreateCrawleTask
 {
     [DisallowConcurrentExecution]
-    public class CreateTaskJob : IDependencyJob
+    public class Job : IDependencyJob
     {
-        private readonly ILogger<CreateTaskJob> _logger;
+        private readonly ILogger<Job> _logger;
         private readonly CrawleUrlAppService _crawleUrlAppService;
 
-        public CreateTaskJob(ILogger<CreateTaskJob> logger, CrawleUrlAppService crawleUrlAppService)
+        public Job(ILogger<Job> logger,
+            CrawleUrlAppService crawleUrlAppService)
         {
             _logger = logger;
             _crawleUrlAppService = crawleUrlAppService;
@@ -34,7 +36,7 @@ namespace Crawler.Application.Jobs.Crawler
                     Url = item,
                     CreatedTime = DateTime.Now,
                     Id = YitIdHelper.NextId(),
-                    Status = 0,
+                    Status = CrawleUrlStatus.UnCrawled,
                     CrawledAt = DateTime.Now,
                     Remark = "test",
                     Retry = 0

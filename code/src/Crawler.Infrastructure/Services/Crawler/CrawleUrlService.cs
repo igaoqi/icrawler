@@ -1,9 +1,9 @@
 ﻿using Crawler.Domain.Contracts.CrawleUrl;
 using Crawler.Domain.Entities.CrawleUrl;
 using Crawler.Domain.Repository;
-using Crawler.Domain.Services;
+using Crawler.Domain.Services.Crawler;
 
-namespace Crawler.Infrastructure.Services
+namespace Crawler.Infrastructure.Services.Crawler
 {
     public class CrawleUrlService : ICrawleUrlService
     {
@@ -19,9 +19,14 @@ namespace Crawler.Infrastructure.Services
             return await _crawleUrlRepository.InsertAsync(crawleUrl) > 0;
         }
 
+        public async Task<bool> UpdateAsync(CrawleUrl crawleUrl)
+        {
+            return await _crawleUrlRepository.UpdateAsync(crawleUrl) > 0;
+        }
+
         public async Task<CrawleUrl> GetFirstOrDefaultAsync(CrawleUrlQuery query)
         {
-            var sql = $"SELECT * FROM CrawleUrl {query}";
+            var sql = $"SELECT * FROM CrawleUrl {query} LIMIT 1";
 
             return await _crawleUrlRepository.GetFirstOrDefaultAsync(sql, query);
         }

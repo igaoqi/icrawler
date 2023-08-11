@@ -1,4 +1,4 @@
-﻿namespace Crawler.Domain.Entities.CrawleUrl
+﻿namespace Crawler.Domain.Enums.CrawleUrl
 {
     /// <summary>
     /// 1 : not crawled, 2: crawled but failed , 3: crawled success

@@ -1,6 +1,6 @@
 ﻿namespace Crawler.Application.Dependency
 {
-    public interface ITransientDependency
+    public interface ITransientSelfDependency
     {
     }
 }

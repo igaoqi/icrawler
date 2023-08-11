@@ -1,7 +1,8 @@
-﻿using Crawler.Domain.Downloader.Http;
+﻿using Crawler.Domain.Downloader;
+using Crawler.Domain.Enums.CrawleUrl;
 using Crawler.Domain.Http;
 
-namespace Crawler.Domain.Downloader.HttpDownloader
+namespace Crawler.Infrastructure.Downloader
 {
     public class HttpDownloader : IHttpDownloader
     {
@@ -18,7 +19,7 @@ namespace Crawler.Domain.Downloader.HttpDownloader
         {
             var client = CreateHttpClient();
 
-            if (request.HttpMethod == HttpMethod.Get)
+            if (request.HttpMethod == CrawleMethod.Get)
             {
                 return await GetCrawleDataAsync(client, request);
             }
@@ -26,17 +27,17 @@ namespace Crawler.Domain.Downloader.HttpDownloader
             throw new Exception();
         }
 
-        private async Task<CrawleData> GetCrawleDataAsync(HttpClient client, CrawleRequest request)
+        private static async Task<CrawleData> GetCrawleDataAsync(HttpClient client, CrawleRequest request)
         {
             var response = await client.GetAsync(request.Url);
-            var data = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
 
             return new CrawleData
             {
                 Url = request.Url,
                 HttpStatusCode = response.StatusCode,
-                Data = data,
-                CreatedAt = DateTime.UtcNow
+                Data = content,
+                CrawledAt = DateTime.UtcNow
             };
         }
 
