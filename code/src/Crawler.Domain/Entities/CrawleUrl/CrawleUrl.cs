@@ -2,10 +2,8 @@
 
 namespace Crawler.Domain.Entities.CrawleUrl
 {
-    public class CrawleUrl
+    public class CrawleUrl : AggregateRoot<long>
     {
-        public long Id { get; set; }
-
         public string Url { get; set; }
 
         public DateTime CrawledAt { get; set; }
@@ -14,8 +12,6 @@ namespace Crawler.Domain.Entities.CrawleUrl
         /// 1 : not crawled, 2: crawled but failed , 3: crawled success
         /// </summary>
         public CrawleUrlStatus Status { get; set; }
-
-        public DateTime CreatedTime { get; set; }
 
         /// <summary>
         /// Remark for failed or other

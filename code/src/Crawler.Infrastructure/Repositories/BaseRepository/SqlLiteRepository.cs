@@ -76,7 +76,7 @@ namespace Crawler.Infrastructure.Repositories.BaseRepository
         public async Task SetupAsync()
         {
             List<string> cmds = new List<string>();
-            cmds.Add(@"CREATE TABLE IF NOT EXISTS Url (Id INTEGER,Url TEXT,CrawledAt TEXT,Status INTEGER,CreatedTime TEXT,Remark TEXT, Retry INTEGER DEFAULT (0))");
+            cmds.Add(@"CREATE TABLE IF NOT EXISTS CrawleUrl (Id INTEGER,Url TEXT,CrawledAt TEXT,Status INTEGER,CreatedTime TEXT,Remark TEXT, Retry INTEGER DEFAULT (0))");
 
             foreach (var item in cmds)
             {

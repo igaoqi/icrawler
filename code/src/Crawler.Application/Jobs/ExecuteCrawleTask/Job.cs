@@ -41,13 +41,16 @@ namespace Crawler.Application.Jobs.ExecuteCrawleTask
                     HttpMethod = CrawleMethod.Get
                 });
 
-                var parseData = await NetEaseNewsParseData(crawleData.Data);
+                var parseData = await ParseNetEaseNewsData(crawleData.Data);
 
-                await _crawleUrlAppService.MarkAsCrawledAsync(item.Id);
+                if (parseData.Success)
+                {
+                    await _crawleUrlAppService.MarkAsCrawledAsync(item.Id);
+                }
             }
         }
 
-        private async Task<NetEaseNewsParseData> NetEaseNewsParseData(string content)
+        private async Task<NetEaseNewsParseData> ParseNetEaseNewsData(string content)
         {
             return await _htmlDefaultParseAppService.ParseAsync(content);
         }

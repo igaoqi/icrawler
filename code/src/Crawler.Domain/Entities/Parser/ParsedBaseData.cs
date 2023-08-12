@@ -13,5 +13,13 @@
         public abstract string Content { get; set; }
 
         public abstract string[] Images { get; set; }
+
+        public bool Success
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(Content);
+            }
+        }
     }
 }
