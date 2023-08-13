@@ -6,6 +6,7 @@ using Crawler.Domain.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 public class Program
 {
@@ -33,6 +34,10 @@ public class Program
 
                 //注册定时任务
                 services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
+            })
+            .ConfigureLogging((context, logging) =>
+            {
+                logging.AddLog4Net("Configs/log4net.xml");
             })
             .UseServiceProviderFactory(new AutofacServiceProviderFactory(container =>
             {

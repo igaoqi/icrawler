@@ -29,12 +29,15 @@ namespace Crawler.Application.Jobs.CreateCrawleTask
                 return;
             }
 
+            _logger.LogInformation("Start CreateCrawle Task ..");
+
             foreach (var item in urls)
             {
                 await _crawleUrlAppService.AddCrawleUrlAsync(new CrawleUrl
                 {
                     Url = item,
-                    CreatedTime = DateTime.Now,
+                    CreatedTime = DateTime.UtcNow,
+                    UpdatedTime = DateTime.UtcNow,
                     Id = YitIdHelper.NextId(),
                     Status = CrawleUrlStatus.UnCrawled,
                     CrawledAt = DateTime.Now,

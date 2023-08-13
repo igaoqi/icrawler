@@ -21,6 +21,9 @@
     <None Update="Configs\Database.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Configs\log4net.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Configs\QuartzConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

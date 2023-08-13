@@ -6,14 +6,14 @@ namespace Crawler.Domain.Entities
     {
         public TKey Id { get; set; }
 
-        public TKey TenantId { get; set; }
+        public TKey TenantId { get; set; } = default;
 
         public DateTime CreatedTime { get; set; }
 
         public DateTime UpdatedTime { get; set; }
 
-        public TKey CreatedBy { get; set; }
+        public TKey CreatedBy { get; set; } = default;
 
-        public TKey UpdatedBy { get; set; }
+        public TKey UpdatedBy { get; set; } = default;
     }
 }

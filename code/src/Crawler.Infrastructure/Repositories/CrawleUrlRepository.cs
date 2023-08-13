@@ -54,7 +54,8 @@ namespace Crawler.Infrastructure.Repositories
         {
             var cmd = new SqlCommand
             {
-                Sql = "INSERT INTO CrawleUrl (Id, Url, CrawledAt, Status, CreatedTime ,Remark ,Retry) VALUES (@Id, @Url, @CrawledAt, @Status, @CreatedTime,@Remark,@Retry)",
+                Sql = @"INSERT INTO CrawleUrl (Id, Url, CrawledAt, Status, CreatedTime, UpdatedTime, Remark ,Retry ,TenantId ,CreatedBy ,UpdatedBy)
+                                       VALUES (@Id, @Url, @CrawledAt, @Status, @CreatedTime,@UpdatedTime,@Remark,@Retry,@TenantId,@CreatedBy,@UpdatedBy)",
                 Param = entity
             };
 

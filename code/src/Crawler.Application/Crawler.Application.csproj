@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
     <PackageReference Include="quartz" Version="3.7.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.7.0" />
 	<PackageReference Include="Quartz.Extensions.Hosting" Version="3.7.0" />
