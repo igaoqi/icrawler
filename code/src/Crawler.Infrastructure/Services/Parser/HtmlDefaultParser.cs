@@ -13,7 +13,7 @@ namespace Crawler.Infrastructure.Services.Parser
 
         public Task<T> Parse(string content)
         {
-            var doc = GetHtmlDocument(content);
+            var doc = HtmlDefaultParser<T>.GetHtmlDocument(content);
 
             var result = new T();
 
@@ -27,7 +27,7 @@ namespace Crawler.Infrastructure.Services.Parser
                     switch (selector.SelectorType)
                     {
                         case SelectorType.XPath:
-                            SetXPathValue(result, doc, selector, property);
+                            HtmlDefaultParser<T>.SetXPathValue(result, doc, selector, property);
                             break;
 
                         default:
@@ -39,7 +39,7 @@ namespace Crawler.Infrastructure.Services.Parser
             return Task.FromResult(result);
         }
 
-        private HtmlDocument GetHtmlDocument(string content)
+        private static HtmlDocument GetHtmlDocument(string content)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(content);
@@ -47,10 +47,22 @@ namespace Crawler.Infrastructure.Services.Parser
             return doc;
         }
 
-        private void SetXPathValue(T obj, HtmlDocument doc, Selector selector, PropertyInfo property)
+        private static void SetXPathValue(T obj, HtmlDocument doc, Selector selector, PropertyInfo property)
         {
             var node = doc.DocumentNode.SelectSingleNode(selector.Expression);
-            property.SetValue(obj, node.InnerText);
+            if (node != null)
+            {
+                string text = "";
+                if (!string.IsNullOrEmpty(selector.AttributeName))
+                {
+                    text = node.GetAttributeValue(selector.AttributeName, "");
+                }
+                else
+                {
+                    text = node.InnerText;
+                }
+                property.SetValue(obj, text);
+            }
         }
     }
 }

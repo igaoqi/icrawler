@@ -6,7 +6,7 @@
 
         public abstract string Author { get; set; }
 
-        public abstract DateTime PublishedTime { get; set; }
+        public abstract string PublisheTime { get; set; }
 
         public abstract string Title { get; set; }
 
