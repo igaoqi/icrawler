@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Crawler.Domain.Entities.Parser;
+﻿using Crawler.Domain.Entities.Parser;
 
 namespace Crawler.Application.Contracts
 {
     public class NetEaseNewsArticleData : ParsedBaseData
     {
-        public override string Url { get; set; }
-
         public override string Author { get; set; }
 
         [Selector(Expression = "//*[@id=\"ne_wrap\"]", AttributeName = "data-publishtime", IsArray = false, SelectorType = SelectorType.XPath)]

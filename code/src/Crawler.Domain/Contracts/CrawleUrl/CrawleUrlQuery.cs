@@ -82,7 +82,7 @@ namespace Crawler.Domain.Contracts.CrawleUrl
                 where.Append($" ORDER BY {OrderBy} {OrderByDesc}");
             }
 
-            if (PageIndex > 0 && PageSize > 0)
+            if (PageIndex >= 0 && PageSize > 0)
             {
                 where.Append($" LIMIT {PageIndex * PageSize},{PageSize}");
             }

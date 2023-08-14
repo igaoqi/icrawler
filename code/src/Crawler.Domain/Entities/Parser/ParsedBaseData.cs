@@ -2,7 +2,7 @@
 {
     public abstract class ParsedBaseData : AggregateRoot<long>
     {
-        public abstract string Url { get; set; }
+        public virtual string Url { get; set; }
 
         public abstract string Author { get; set; }
 
