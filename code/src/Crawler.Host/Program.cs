@@ -34,6 +34,9 @@ public class Program
 
                 //注册定时任务
                 services.AddJobs(context.Configuration.GetSection("Jobs").Get<List<QuartzConfig>>());
+
+                //注册 AutoMapper
+                services.AddAutoMapper();
             })
             .ConfigureLogging((context, logging) =>
             {

@@ -1,6 +1,6 @@
 ﻿namespace Crawler.Domain.Entities.Parser
 {
-    public abstract class ParsedBaseData
+    public abstract class ParsedBaseData : AggregateRoot<long>
     {
         public abstract string Url { get; set; }
 

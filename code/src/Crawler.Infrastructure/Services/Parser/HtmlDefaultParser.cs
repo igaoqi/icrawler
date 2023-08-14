@@ -52,7 +52,7 @@ namespace Crawler.Infrastructure.Services.Parser
             var node = doc.DocumentNode.SelectSingleNode(selector.Expression);
             if (node != null)
             {
-                string text = "";
+                string text;
                 if (!string.IsNullOrEmpty(selector.AttributeName))
                 {
                     text = node.GetAttributeValue(selector.AttributeName, "");

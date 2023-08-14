@@ -1,19 +1,20 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Crawler.Domain.Entities
 {
-    public class AggregateRoot<TKey>
+    public abstract class AggregateRoot<TKey>
     {
-        public TKey Id { get; set; }
+        [Key]
+        public virtual TKey Id { get; set; }
 
-        public TKey TenantId { get; set; } = default;
+        public virtual TKey? TenantId { get; set; }
 
-        public DateTime CreatedTime { get; set; }
+        public virtual DateTime CreatedTime { get; set; }
 
-        public TKey CreatedBy { get; set; } = default;
+        public virtual TKey? CreatedBy { get; set; }
 
-        public DateTime UpdatedTime { get; set; }
+        public virtual DateTime? UpdatedTime { get; set; }
 
-        public TKey UpdatedBy { get; set; } = default;
+        public virtual TKey? UpdatedBy { get; set; }
     }
 }

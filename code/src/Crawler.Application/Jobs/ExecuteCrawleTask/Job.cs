@@ -12,16 +12,19 @@ namespace Crawler.Application.Jobs.ExecuteCrawleTask
         private readonly ILogger<Job> _logger;
         private readonly IHttpDownloader _httpDownloader;
         private readonly CrawleUrlAppService _crawleUrlAppService;
-        private readonly HtmlDefaultParseAppService<NetEaseNewsParseData> _htmlDefaultParseAppService;
+        private readonly NetEaseNewsAppService _netEaseNewsAppService;
+        private readonly HtmlDefaultParseAppService<NetEaseNewsArticleData> _htmlDefaultParseAppService;
 
         public Job(ILogger<Job> logger,
             IHttpDownloader httpDownloader,
             CrawleUrlAppService crawleUrlAppService,
-            HtmlDefaultParseAppService<NetEaseNewsParseData> htmlDefaultParseAppService)
+            NetEaseNewsAppService netEaseNewsAppService,
+            HtmlDefaultParseAppService<NetEaseNewsArticleData> htmlDefaultParseAppService)
         {
             _logger = logger;
             _httpDownloader = httpDownloader;
             _crawleUrlAppService = crawleUrlAppService;
+            _netEaseNewsAppService = netEaseNewsAppService;
             _htmlDefaultParseAppService = htmlDefaultParseAppService;
         }
 
@@ -45,12 +48,14 @@ namespace Crawler.Application.Jobs.ExecuteCrawleTask
 
                 if (parseData.Success)
                 {
+                    await _netEaseNewsAppService.SaveParseDataAsync(parseData);
+
                     await _crawleUrlAppService.MarkAsCrawledAsync(item.Id);
                 }
             }
         }
 
-        private async Task<NetEaseNewsParseData> ParseNetEaseNewsData(string content)
+        private async Task<NetEaseNewsArticleData> ParseNetEaseNewsData(string content)
         {
             return await _htmlDefaultParseAppService.ParseAsync(content);
         }

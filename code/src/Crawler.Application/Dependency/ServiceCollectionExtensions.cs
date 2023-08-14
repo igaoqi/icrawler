@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Yitter.IdGenerator;
 
 namespace Crawler.Application.Dependency
@@ -63,12 +62,9 @@ namespace Crawler.Application.Dependency
             return services;
         }
 
-        public static IServiceCollection AddLog4net(this IServiceCollection services)
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
-            services.AddLogging(builder =>
-            {
-                builder.AddLog4Net("Configs/log4net.xml");
-            });
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }

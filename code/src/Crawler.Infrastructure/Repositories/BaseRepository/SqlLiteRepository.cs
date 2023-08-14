@@ -2,9 +2,11 @@
 using Crawler.Domain.Options;
 using Crawler.Domain.Repository;
 using Dapper;
+
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
+using Z.Dapper.Plus;
 
 namespace Crawler.Infrastructure.Repositories.BaseRepository
 {
@@ -63,6 +65,29 @@ namespace Crawler.Infrastructure.Repositories.BaseRepository
             return conn.QueryFirstOrDefaultAsync<T>(sql, param, transaction, commandTimeout, commandType);
         }
 
+        public async Task InsertAsync<T>(T entity, object param = null, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            using var conn = GetSqliteConnection(_connection);
+
+            await Task.Run(() =>
+           {
+               conn.SingleInsert(new DapperPlusContext() { Transaction = transaction }, entity);
+           });
+        }
+
+        public async Task SetupAsync()
+        {
+            List<string> cmds = new List<string>();
+            cmds.Add(@"CREATE TABLE IF NOT EXISTS CrawleUrl (Id INTEGER,Url TEXT,CrawledAt TEXT,Status INTEGER,CreatedTime TEXT,Remark TEXT, Retry INTEGER DEFAULT (0), TenantId INTEGER, CreatedBy TEXT, UpdatedTime TEXT, UpdatedBy INTEGER);");
+
+            cmds.Add(@"CREATE TABLE NetEaseNewsArticle (Id INTEGER,Url TEXT,Author TEXT,PublisheTime TEXT,Title TEXT,Content TEXT,Images TEXT, TenantId INTEGER, CreatedTime TEXT, CreatedBy INTEGER, UpdatedTime TEXT, UpdatedBy INTEGER)");
+
+            foreach (var item in cmds)
+            {
+                await ExecuteAsync(item);
+            }
+        }
+
         private SqliteConnection GetSqliteConnection(string conn)
         {
             if (string.IsNullOrEmpty(conn))
@@ -71,19 +96,6 @@ namespace Crawler.Infrastructure.Repositories.BaseRepository
             }
 
             return new SqliteConnection(conn);
-        }
-
-        public async Task SetupAsync()
-        {
-            List<string> cmds = new List<string>();
-            cmds.Add(@"CREATE TABLE IF NOT EXISTS CrawleUrl (Id INTEGER,Url TEXT,CrawledAt TEXT,Status INTEGER,CreatedTime TEXT,Remark TEXT, Retry INTEGER DEFAULT (0))");
-
-            cmds.Add(@"CREATE TABLE NetEaseNewsArticle (Id INTEGER,Url TEXT,Author TEXT,PublishedTime TEXT,Title TEXT,Content TEXT,Images TEXT,CONSTRAINT NewTable_PK PRIMARY KEY (Id))");
-
-            foreach (var item in cmds)
-            {
-                await ExecuteAsync(item);
-            }
         }
     }
 }
